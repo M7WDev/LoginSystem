@@ -1,6 +1,7 @@
 // ignore_for_file: camel_case_types
 
 import 'package:flutter/material.dart';
+import 'package:login/signupPage/signupScreen.dart';
 
 class loginPage extends StatefulWidget {
   const loginPage({super.key});
@@ -9,9 +10,16 @@ class loginPage extends StatefulWidget {
   State<loginPage> createState() => _loginPageState();
 }
 
-bool check1 = true;
+final TextEditingController emailController = TextEditingController();
+final TextEditingController passwordController = TextEditingController();
+
+String wrongmessage = '';
+bool check1 = false;
+
+@override
 _containerEmail() {
   return TextField(
+    controller: emailController,
     decoration: InputDecoration(
         border: InputBorder.none,
         icon: Icon(Icons.email_outlined),
@@ -24,6 +32,7 @@ _containerPassword() {
   return Column(
     children: [
       TextField(
+        controller: passwordController,
         decoration: InputDecoration(
           border: InputBorder.none,
           icon: Icon(Icons.person_outline),
@@ -36,14 +45,26 @@ _containerPassword() {
   );
 }
 
-_loginButton() {
+//TODO check if the account exists and the credentials match
+
+_loginButton(BuildContext context) {
   return Padding(
     padding: const EdgeInsets.all(30.0),
     child: SizedBox(
       height: 45,
       width: 200,
       child: ElevatedButton(
-        onPressed: null,
+        onPressed: () {
+          if (emailController.text != 'vasco' &&
+              passwordController.text != 'vasco') {
+            return;
+          } else {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => loginPage()),
+            );
+          }
+        },
         style: ButtonStyle(
           backgroundColor: MaterialStateProperty.all(Colors.blue),
         ),
@@ -53,7 +74,25 @@ _loginButton() {
   );
 }
 
+_redirectToSignupScreen(context) {
+  return GestureDetector(
+    onTap: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => signupScreen()),
+      );
+    },
+    child: Text('Não tem uma conta criada? Criar'),
+  );
+}
+
 class _loginPageState extends State<loginPage> {
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -94,7 +133,8 @@ class _loginPageState extends State<loginPage> {
             ),
           ),
           SizedBox(height: 10),
-          _loginButton(),
+          _loginButton(context),
+          _redirectToSignupScreen(context),
         ],
       ),
     );
