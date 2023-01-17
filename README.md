@@ -20,7 +20,7 @@
 
 ## 📁 Código do Projeto
 
-Você pode acessar os arquivos do projeto clicando [aqui](https://github.com/M7WDev).
+Você pode acessar os arquivos do projeto clicando [aqui](https://github.com/M7WDev/LoginSystem/tree/main/lib).
 
 ## ❓Contato para suporte
 <div>
