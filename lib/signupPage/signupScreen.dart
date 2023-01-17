@@ -7,41 +7,72 @@ class signupScreen extends StatefulWidget {
   @override
   State<signupScreen> createState() => _signupScreenState();
 }
-//TODO confirm that what is placed is an email and add controller
+
+final TextEditingController emailController = TextEditingController();
+final TextEditingController passwordController = TextEditingController();
+final TextEditingController passwordConfirmController = TextEditingController();
 
 _containerEmail() {
-  return TextField(
+  return TextFormField(
+    controller: emailController,
+    autovalidateMode: AutovalidateMode.always,
     decoration: InputDecoration(
         border: InputBorder.none,
         icon: Icon(Icons.email_outlined),
         hintText: 'Email'),
     keyboardType: TextInputType.emailAddress,
+    validator: (value) {
+      if (value != null) {
+        if (value.length > 5 && value.contains('@') && value.endsWith('.com')) {
+          return null;
+        }
+        return 'Coloque um email válido';
+      }
+    },
   );
 }
 
-//TODO check the password size and add controller
-
 _containerPassword() {
-  return TextField(
+  return TextFormField(
+    controller: passwordController,
+    autovalidateMode: AutovalidateMode.always,
     decoration: InputDecoration(
         border: InputBorder.none,
         icon: Icon(Icons.person_outline),
         hintText: 'Senha'),
     keyboardType: TextInputType.emailAddress,
     obscureText: true,
+    validator: (value) {
+      if (value != null) {
+        if (value.length > 5) {
+          return null;
+        }
+        return 'Coloque uma senha maior';
+      }
+    },
   );
 }
 
 //TODO check whether passwords check and add controller
 
 _containerPasswordConfirm() {
-  return TextField(
+  return TextFormField(
+    controller: passwordConfirmController,
+    autovalidateMode: AutovalidateMode.always,
     decoration: InputDecoration(
         border: InputBorder.none,
         icon: Icon(Icons.person_outline),
         hintText: 'Confirmar senha'),
     keyboardType: TextInputType.emailAddress,
     obscureText: true,
+    validator: (value) {
+      if (value != null) {
+        if (value.length > 5) {
+          return null;
+        }
+        return 'Coloque uma senha maior';
+      }
+    },
   );
 }
 
@@ -87,6 +118,12 @@ _redirectToLoginScreen(context) {
 }
 
 class _signupScreenState extends State<signupScreen> {
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,7 +132,7 @@ class _signupScreenState extends State<signupScreen> {
           SizedBox(height: 60),
           Center(
             child: Container(
-              height: 150,
+              height: 250,
               width: 250,
               child: Column(
                 children: [
