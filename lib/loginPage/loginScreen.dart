@@ -9,35 +9,7 @@ class loginPage extends StatefulWidget {
   State<loginPage> createState() => _loginPageState();
 }
 
-class _loginPageState extends State<loginPage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          SizedBox(height: 60),
-          Center(
-            child: Container(
-              height: 100,
-              width: 250,
-              child: Column(
-                children: [
-                  _containerPassword(),
-                  _containerEmail(),
-                ],
-              ),
-            ),
-          ),
-          SizedBox(height: 40),
-          _loginButton(),
-        ],
-      ),
-    );
-  }
-}
-
-//TODO Collect what is written within the text field email
-
+bool check1 = true;
 _containerEmail() {
   return TextField(
     decoration: InputDecoration(
@@ -48,20 +20,21 @@ _containerEmail() {
   );
 }
 
-//TODO Collect what is written within the text field login
-
 _containerPassword() {
-  return TextField(
-    decoration: InputDecoration(
-      border: InputBorder.none,
-      icon: Icon(Icons.person_outline),
-      hintText: 'Senha',
-    ),
-    keyboardType: TextInputType.emailAddress,
+  return Column(
+    children: [
+      TextField(
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          icon: Icon(Icons.person_outline),
+          hintText: 'Senha',
+        ),
+        obscureText: !check1,
+        keyboardType: TextInputType.text,
+      ),
+    ],
   );
 }
-
-//TODO Check the email and password and redirect to the page sucessfull
 
 _loginButton() {
   return Padding(
@@ -78,4 +51,52 @@ _loginButton() {
       ),
     ),
   );
+}
+
+class _loginPageState extends State<loginPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        children: [
+          SizedBox(height: 60),
+          Center(
+            child: Container(
+              height: 100,
+              width: 250,
+              child: Column(
+                children: [
+                  _containerEmail(),
+                  _containerPassword(),
+                ],
+              ),
+            ),
+          ),
+          Center(
+            child: Container(
+              width: 250,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text('Ver sua senha?'),
+                  Checkbox(
+                      //only check box
+                      value: check1, //unchecked
+                      onChanged: (bool? value) {
+                        //value returned when checkbox is clicked
+                        setState(() {
+                          check1 = value!;
+                        });
+                      }),
+                ],
+              ),
+            ),
+          ),
+          SizedBox(height: 10),
+          _loginButton(),
+        ],
+      ),
+    );
+  }
 }
